@@ -1,5 +1,6 @@
 package doos;
 
+import java.awt.image.PackedColorModel;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -92,22 +93,22 @@ public class BoxApplication {
 		sortBoxThread.join();
 		writeBoxesToFileThread.start();
 		writeWeightThread.start();
-		writeFilePropertiesThread.start();		
+		writeFilePropertiesThread.start();	
+		
+		writeBoxesToFileThread.join();
+		writeWeightThread.join();
+		writeFilePropertiesThread.join();
+		
+		box.printYellowBoxesTenHeigthWidth(yellowBox);
+		box.printDangerBoxes(boxList);
 	}
 	
 	private void SortCollection(ArrayList<Box<Package>> doos)
 	{
-		for(Box<Package> d : doos)
-		{
-			System.out.println(d.toString());
-		}
 		Collections.sort(doos);
-		for(Box<Package> d : doos)
-		{
-			System.out.println(d.toString());
-		}
 	}
-	private void writeHeavy(BufferedWriter writer, ArrayList<Box<Package>> boxList, String file, int amountOfLines) throws IOException
+	
+private void writeHeavy(BufferedWriter writer, ArrayList<Box<Package>> boxList, String file, int amountOfLines) throws IOException
 	{
 		try
 		{
@@ -188,9 +189,9 @@ public class BoxApplication {
 		}
 	}
 	
-	private void splitBoxes(ArrayList<Box<Package>> boxList, ArrayList<Box<Package>> yellowBoxList, ArrayList<Box<Package>> brownBoxList)
+	private void splitBoxes(ArrayList<Box<Package>> boxesList, ArrayList<Box<Package>> yellowBoxList, ArrayList<Box<Package>> brownBoxList)
 	{
-		for(Box<Package> d : boxList)
+		for(Box<Package> d : boxesList)
 		{
 			if(d.getColor() == Color.YELLOW)
 			{
@@ -317,4 +318,13 @@ public class BoxApplication {
 		
 	}
 
+	private void printYellowBoxesTenHeigthWidth(ArrayList<Box<Package>> yboxList)
+	{
+		yboxList.stream().filter(s->s.getWidth()==10.0).filter(s->s.getHeight()==10.0).forEach(System.out::println);
+	}
+	
+	private void printDangerBoxes(ArrayList<Box<Package>> dangerBoxes)
+	{
+		dangerBoxes.stream().filter(s->s.isDanger()==true).forEach(System.out::println);
+	}
 }
