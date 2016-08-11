@@ -1,0 +1,32 @@
+Maak de volgende klassen aan:
+[x]Generische klasse Doos
+[x]DozenApplicatie (deze klasse bevat de main)
+[x]Hout
+[x]Metaal
+[x]Papier
+[x]Plastiek
+[x]Verpakking
+
+Enum:
+[x]Kleur die de opties Geel en Bruin bevat
+
+[x]Maak een Generische klasse Doos, zorg ervoor dat deze klasse enkel afgeleiden van de klasse Verpakking kan gebruiken. => bv.: Doos<Plastiek>
+[x]Lees het bestand Dozen.txt in en maak voor iedere doos een nieuwe object aan, deze objecten steek je in een gepaste collectie (Lees verder) het inlezen moet gebeuren op een aparte thread.
+
+[]Maak een folder aan genaamd "Bestanden" (via de IDE), hierin zal je alle .txt bestanden opslaan die je in de opgave aanmaakt.
+[x]Sorteer de dozen per kleur en zorg ervoor dat iedere kleur zijn eigen collectie heeft (sorteren/filteren), hierna ga je iedere collectie sorteren op basis van gewicht (van licht naar zwaar)
+	en schrijf je deze weg naar het de bestanden DoosGeel.txt en DoosBruin.txt
+[x]Schrijf de 50 zwaarste dozen weg naar het bestand zwaar.txt, dit gebeurd op een aparte thread. (gebruik hiervoor de volledige collectie met alle dozen)
+[x]Schrijf de 50 lichtste dozen weg naar het bestand licht.txt, dit gebeurd simultaan met de zwaarste dozen. (gebruik hiervoor de collectie met alle dozen)
+
+[x]vind het pad op van het bestand zwaar.txt en vraag de volgende properties op van het bestand:
+*isHidden
+*grootte
+*aanmaakdatum
+*ReadOnly
+
+[x]Schrijf dit weg naar het bestand FileProperties.txt
+
+[]Zorg ervoor dat je de applicatie kan uitvoeren via een .JAR bestand.
+
+[]Uitbreiding, als je wilt kan je er nog een GUI rond bouwen die voor de nodige acties zorgt. Je bouwt de GUI dan ook multithreaded op zodat je meerdere zaken tegelijk kunt runnen indien dit mogelijk is.
