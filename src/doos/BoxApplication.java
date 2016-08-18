@@ -1,6 +1,5 @@
 package doos;
 
-import java.awt.image.PackedColorModel;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -18,9 +17,9 @@ import java.util.stream.Stream;
 
 public class BoxApplication {
 
-	private static ArrayList<Box<Package>> boxList = new ArrayList<>();
-	private static ArrayList<Box<Package>> yellowBox = new ArrayList<>();
-	private static ArrayList<Box<Package>> brownBox = new ArrayList<>(); 
+	private static ArrayList<Box<?>> boxList = new ArrayList<>();
+	private static ArrayList<Box<?>> yellowBox = new ArrayList<>();
+	private static ArrayList<Box<?>> brownBox = new ArrayList<>(); 
 	private static BufferedReader reader = null;
 	private static BufferedWriter writer = null;
 	
@@ -31,7 +30,7 @@ public class BoxApplication {
 		Thread readThread = new Thread(new  Runnable() {
 			public void run() {
 				try {
-					boxList = box.readFunction(reader, "Boxes.txt", boxList, getAmountOfLines("Boxes.txt"));
+					BoxApplication.boxList = box.readFunction(reader, "Boxes.txt", getAmountOfLines("Boxes.txt"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -40,23 +39,23 @@ public class BoxApplication {
 		
 		Thread splitBoxThread = new Thread(new Runnable() {
 			public void run() {
-				box.splitBoxes(boxList,yellowBox,brownBox);
+				box.splitBoxes(BoxApplication.boxList,BoxApplication.yellowBox,BoxApplication.brownBox);
 			}
 		});
 		
 		Thread sortBoxThread = new Thread(new Runnable() {
 			public void run() {
-				box.SortCollection(yellowBox);
-				box.SortCollection(brownBox);
-				box.SortCollection(boxList);
+				box.SortCollection(BoxApplication.yellowBox);
+				box.SortCollection(BoxApplication.brownBox);
+				box.SortCollection(BoxApplication.boxList);
 			}
 		});
 		
 		Thread writeBoxesToFileThread = new Thread(new Runnable() {
 			public void run() {
 				try {
-					box.writeBoxesToFile(writer, yellowBox, "BoxYellow.txt");
-					box.writeBoxesToFile(writer, brownBox, "BoxBrown.txt");	
+					box.writeBoxesToFile(writer, BoxApplication.yellowBox, "BoxYellow.txt");
+					box.writeBoxesToFile(writer, BoxApplication.brownBox, "BoxBrown.txt");	
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -66,8 +65,8 @@ public class BoxApplication {
 		Thread writeWeightThread = new Thread(new Runnable() {
 			public void run() {
 				try {
-					box.writeHeavy(writer, boxList, "Heavy.txt", 50);
-					box.writeLight(writer, boxList, "Light.txt", 50);
+					box.writeHeavy(writer, BoxApplication.boxList, "Heavy.txt", 50);
+					box.writeLight(writer, BoxApplication.boxList, "Light.txt", 50);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -99,16 +98,16 @@ public class BoxApplication {
 		writeWeightThread.join();
 		writeFilePropertiesThread.join();
 		
-		box.printYellowBoxesTenHeigthWidth(yellowBox);
-		box.printDangerBoxes(boxList);
+		box.printYellowBoxesTenHeigthWidth(BoxApplication.yellowBox);
+		box.printDangerBoxes(BoxApplication.boxList);
 	}
 	
-	private void SortCollection(ArrayList<Box<Package>> doos)
+	private void SortCollection(ArrayList<Box<? extends Package>> doos)
 	{
 		Collections.sort(doos);
 	}
 	
-private void writeHeavy(BufferedWriter writer, ArrayList<Box<Package>> boxList, String file, int amountOfLines) throws IOException
+private void writeHeavy(BufferedWriter writer, ArrayList<Box<? extends Package>> boxList, String file, int amountOfLines) throws IOException
 	{
 		try
 		{
@@ -134,7 +133,7 @@ private void writeHeavy(BufferedWriter writer, ArrayList<Box<Package>> boxList, 
 		
 	}
 	
-	private void writeLight(BufferedWriter writer, ArrayList<Box<Package>> boxList, String file, int amountOfLines) throws IOException
+	private void writeLight(BufferedWriter writer, ArrayList<Box<? extends Package>> boxList, String file, int amountOfLines) throws IOException
 	{
 		try
 		{
@@ -164,12 +163,12 @@ private void writeHeavy(BufferedWriter writer, ArrayList<Box<Package>> boxList, 
 		}
 	}
 	
-	private void writeBoxesToFile(BufferedWriter writer, ArrayList<Box<Package>> boxList, String file) throws IOException
+	private void writeBoxesToFile(BufferedWriter writer, ArrayList<Box<? extends Package>> boxList, String file) throws IOException
 	{
 		try
 		{
 			writer = new BufferedWriter(new FileWriter(file));
-			for(Box<Package> d : boxList)
+			for(Box<? extends Package> d : boxList)
 			{
 				writer.write(d.toString());
 				writer.newLine();
@@ -189,9 +188,9 @@ private void writeHeavy(BufferedWriter writer, ArrayList<Box<Package>> boxList, 
 		}
 	}
 	
-	private void splitBoxes(ArrayList<Box<Package>> boxesList, ArrayList<Box<Package>> yellowBoxList, ArrayList<Box<Package>> brownBoxList)
+	private void splitBoxes(ArrayList<Box<?>> boxesList, ArrayList<Box<?>> yellowBoxList, ArrayList<Box<?>> brownBoxList)
 	{
-		for(Box<Package> d : boxesList)
+		for(Box<?> d : boxesList)
 		{
 			if(d.getColor() == Color.YELLOW)
 			{
@@ -215,11 +214,11 @@ private void writeHeavy(BufferedWriter writer, ArrayList<Box<Package>> boxList, 
 		return lines.count();
 	}
 
-	private void addObj(ArrayList<Box<Package>> boxList, Box<Package> box) {
+	private void addObj(ArrayList<Box<?>> boxList, Box<?> box) {
 		boxList.add(box);
 	}
 
-	private Box<?> boxFunction(String line, Color color) {
+	private Box<? extends Package> boxFunction(String line, Color color) {
 		String[] array = new String[6];
 		array = line.split(";");
 		Box<?> d = null;
@@ -244,7 +243,8 @@ private void writeHeavy(BufferedWriter writer, ArrayList<Box<Package>> boxList, 
 		return d;
 	}
 
-	private ArrayList<Box<Package>> readFunction(BufferedReader reader, String bestand, ArrayList<Box<Package>> boxList,long amountOfLines) throws IOException {
+	private ArrayList<Box<? extends Package>> readFunction(BufferedReader reader, String bestand,long amountOfLines) throws IOException {
+		ArrayList<Box<? extends Package>> boxesList = new ArrayList<>();
 		try {
 			String[] boxArray = new String[6];
 			reader = new BufferedReader(new FileReader(bestand));
@@ -253,13 +253,9 @@ private void writeHeavy(BufferedWriter writer, ArrayList<Box<Package>> boxList, 
 				line = reader.readLine();
 				boxArray = line.split(";");
 				if (boxArray[3].equals("Yellow")) {
-					// System.out.println(line); --Debug
-					addObj(boxList, (Box<Package>) boxFunction(line, Color.YELLOW));
-					//System.out.println(boxList.size()); -- Debug
+					addObj(boxesList, boxFunction(line, Color.YELLOW));
 				} else {
-					// System.out.println(line); -- Debug
-					addObj(boxList, (Box<Package>) boxFunction(line, Color.BROWN));
-					// System.out.println(boxList.size()); -- Debug
+					addObj(boxesList, boxFunction(line, Color.BROWN));
 				}
 			}
 		} catch (Exception ex) {
@@ -269,7 +265,7 @@ private void writeHeavy(BufferedWriter writer, ArrayList<Box<Package>> boxList, 
 				reader.close();
 			}
 		}
-		return boxList;
+		return boxesList;
 	}
 	
 	private void printFileSpecs(BufferedWriter writer, String fileNameToGetPath, String fileNameToWrite) throws IOException, InvalidPathException, FileNotFoundException
@@ -318,12 +314,12 @@ private void writeHeavy(BufferedWriter writer, ArrayList<Box<Package>> boxList, 
 		
 	}
 
-	private void printYellowBoxesTenHeigthWidth(ArrayList<Box<Package>> yboxList)
+	private void printYellowBoxesTenHeigthWidth(ArrayList<Box<? extends Package>> yboxList)
 	{
 		yboxList.stream().filter(s->s.getWidth()==10.0).filter(s->s.getHeight()==10.0).forEach(System.out::println);
 	}
 	
-	private void printDangerBoxes(ArrayList<Box<Package>> dangerBoxes)
+	private void printDangerBoxes(ArrayList<Box<? extends Package>> dangerBoxes)
 	{
 		dangerBoxes.stream().filter(s->s.isDanger()==true).forEach(System.out::println);
 	}

@@ -1,6 +1,6 @@
 package doos;
 
-public class Box<T extends Package> implements Comparable<Object>{
+public class Box<T extends Package> implements Comparable<Box<? extends Package>>{
 
 	@Override
 	public String toString() {
@@ -73,8 +73,8 @@ public class Box<T extends Package> implements Comparable<Object>{
 	}*/
 
 	@Override
-	public int compareTo(Object o) {
-		int compare = (int) ((Box<Package>)o).getWeight();
+	public int compareTo(Box<? extends Package> o) {
+		int compare = (int) o.getWeight();
 		return (int) (this.getWeight()-compare);
 	}
 	
