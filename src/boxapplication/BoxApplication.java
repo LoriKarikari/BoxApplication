@@ -31,20 +31,41 @@ public class BoxApplication {
 		Thread t1 = new Thread(read);
 		t1.start();
 		t1.join();
-
+		
 		Runnable seperateColors = () -> {
 			boxApplication.seperateColors();
 		};
 		Thread t2 = new Thread(seperateColors);
 		t2.start();
 		t2.join();
-
 		
-		boxApplication.writeHeavy();
-		boxApplication.writeLight();
+		Runnable writeHeavy = () -> {
+			boxApplication.writeHeavy();
+		};
+		Thread t3 = new Thread(writeHeavy);
+		t3.start();
+		t3.join();
+		
+		Runnable writeLight = () -> {
+			boxApplication.writeLight();
+		};
+		Thread t4 = new Thread(writeLight);
+		t4.start();
+		t4.join();
+		
+		Runnable writeProps = () -> {
+			try {
+				boxApplication.writeProperties();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		};
+		Thread t5 = new Thread(writeProps);
+		t5.join();
+
 		boxApplication.printYellow();
 		boxApplication.printDangerous();
-		boxApplication.writeProperties();
+		
 	}
 
 	/*
@@ -134,7 +155,7 @@ public class BoxApplication {
 	/*
 	 * write top 50 heaviest boxes to a file
 	 */
-	public void writeHeavy() {
+	private void writeHeavy() {
 		List<Box<?>> heavyBoxes = new ArrayList<>(); // create new ArrayList for lightest boxes
 		
 		Collections.sort(boxes); // sort boxes by weight (high to low), this is determined by the compareTo() method in the Box class
@@ -150,7 +171,7 @@ public class BoxApplication {
 	 * write top 50 lightest boxes to a file
 	 * same as writeHeavy() but with reverse sort order
 	 */
-	public void writeLight() {
+	private void writeLight() {
 		List<Box<?>> lightBoxes = new ArrayList<>(); 
 		
 		Collections.sort(boxes, Collections.reverseOrder()); // sort boxes by weight (low to high)
@@ -197,7 +218,7 @@ public class BoxApplication {
 		attributes.add("Size: " +attr.size());
 		attributes.add("Creation Time: " +attr.creationTime());
 		
-		// Winblows/DOS, not available on Linux/Unix
+		// Winblows/DOS, no Unix/Linux
 		// DosFileAttributes attr = Files.readAttributes(path, DosFileAttributes.class);
 		// attributes.add("Hidden: " +attr.isHidden()); 
 		// attributes.add("Read Only: " +attr.isReadOnly());
