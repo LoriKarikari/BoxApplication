@@ -37,12 +37,16 @@ public class BoxApplication {
 		t2.start();
 		t2.join();
 
-		// boxApplication.printDangerous();
+		
 		boxApplication.writeHeavy();
 		boxApplication.writeLight();
+		boxApplication.printYellow();
+		boxApplication.printDangerous();
 	}
 
-	// read the boxes from file
+	/*
+	 * read boxes from file
+	 */
 	private void read() throws IOException {
 		BufferedReader reader = Files.newBufferedReader(path, Charset.defaultCharset());
 		String line;
@@ -85,6 +89,9 @@ public class BoxApplication {
 		}
 	}
 	
+	/*
+	 * general write method
+	 */
 	private void write(Path path, List<Box<?>> list) {
 		try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
 			list.stream()
@@ -111,6 +118,9 @@ public class BoxApplication {
 		});
 	}
 
+	/**
+	 * write top 50 heaviest boxes to a file
+	 */
 	public void writeHeavy() {
 		List<Box<?>> heavyBoxes = new ArrayList<>(); // create new ArrayList for lightest boxes
 		
@@ -123,7 +133,7 @@ public class BoxApplication {
 		write(path, heavyBoxes); // call the write method with path and new list
 	}
 	
-	/**
+	/*
 	 * write top 50 lightest boxes to a file
 	 * same as writeHeavy() but with reverse sort order
 	 */
@@ -138,13 +148,35 @@ public class BoxApplication {
 		Path path = Paths.get("Light.txt"); 
 		write(path, lightBoxes);
 	}
+	
+	/*
+	 * print all yellow boxes with a height and width of 10
+	 */
+	private void printYellow() {
+		System.out.println("---------------------Overview of all 10x10 yellow boxes---------------------");
+		yellowBoxes.stream()
+		.filter(boxes -> boxes.getWidth() == 10 && boxes.getHeight() == 10)
+		.map(boxes -> boxes.toString())
+		.forEach(System.out::println);;
+	}
 
-	// print dangerous boxes
+	/*
+	 * print all dangerous boxes
+	 */
 	private void printDangerous() {
-		System.out.println("-----------Overview of dangerous boxes-----------");
+		System.out.println("---------------------Overview of dangerous boxes---------------------");
 		boxes.stream()
 		.filter(boxes -> boxes.getDanger() == true)
 		.map(box -> box.toString())
 		.forEach(System.out::println);
 	}
+	
+	
+	
+	private void writeProperties() {
+		
+	}
 }
+
+
+
