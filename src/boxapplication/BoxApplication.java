@@ -4,6 +4,8 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.nio.file.attribute.DosFileAttributes;
+import java.nio.file.attribute.PosixFileAttributes;
 import java.nio.*;
 import java.util.*;
 import java.util.stream.IntStream;
@@ -42,10 +44,12 @@ public class BoxApplication {
 		boxApplication.writeLight();
 		boxApplication.printYellow();
 		boxApplication.printDangerous();
+		boxApplication.writeProperties();
 	}
 
 	/*
 	 * read boxes from file
+	 * throws instead of try/catch to apply them both
 	 */
 	private void read() throws IOException {
 		BufferedReader reader = Files.newBufferedReader(path, Charset.defaultCharset());
@@ -91,13 +95,14 @@ public class BoxApplication {
 	
 	/*
 	 * general write method
+	 * try/catch exception used here
 	 */
-	private void write(Path path, List<Box<?>> list) {
+	private void write(Path path, List<?> list) {
 		try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
 			list.stream()
-			.forEach(box -> {
+			.forEach(item -> {
 				try {
-					writer.write(box.toString() +"\n");
+					writer.write(item.toString() +"\n");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -118,7 +123,7 @@ public class BoxApplication {
 		});
 	}
 
-	/**
+	/*
 	 * write top 50 heaviest boxes to a file
 	 */
 	public void writeHeavy() {
@@ -171,10 +176,25 @@ public class BoxApplication {
 		.forEach(System.out::println);
 	}
 	
-	
-	
-	private void writeProperties() {
+	/*
+	 * write properties of Heavy.txt to a file
+	 */
+	private void writeProperties() throws IOException {
+		List<String> attributes = new ArrayList<>(); 
+		Path path = Paths.get("Heavy.txt");
+		Path writePath = Paths.get("FileProperies.txt");
 		
+		// Unix/Linux
+		PosixFileAttributes attr = Files.readAttributes(path, PosixFileAttributes.class);
+		attributes.add("Size: " +attr.size());
+		attributes.add("Creation Time: " +attr.creationTime());
+		
+		// Winblows/DOS, werken niet met Posix
+		// DosFileAttributes attr = Files.readAttributes(path, DosFileAttributes.class);
+		// attributes.add("Hidden: " +attr.isHidden()); 
+		// attributes.add("Read Only: " +attr.isReadOnly());
+		
+		write(writePath, attributes);
 	}
 }
 
