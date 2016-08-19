@@ -197,7 +197,7 @@ public class BoxApplication {
 		attributes.add("Size: " +attr.size());
 		attributes.add("Creation Time: " +attr.creationTime());
 		
-		// Winblows/DOS, werken niet met Posix
+		// Winblows/DOS, not available on Linux/Unix
 		// DosFileAttributes attr = Files.readAttributes(path, DosFileAttributes.class);
 		// attributes.add("Hidden: " +attr.isHidden()); 
 		// attributes.add("Read Only: " +attr.isReadOnly());
