@@ -121,6 +121,14 @@ public class BoxApplication {
 				yellowBoxes.add(box);
 			}
 		});
+		Collections.sort(brownBoxes);
+		Collections.sort(yellowBoxes);
+		
+		Path yellowPath = Paths.get("BoxYellow.txt");
+		Path brownPath = Paths.get("BoxBrown.txt");
+		
+		write(brownPath, brownBoxes);
+		write(yellowPath, yellowBoxes);
 	}
 
 	/*
@@ -197,6 +205,5 @@ public class BoxApplication {
 		write(writePath, attributes);
 	}
 }
-
 
 
