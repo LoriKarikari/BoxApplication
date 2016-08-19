@@ -1,6 +1,5 @@
-package doos;
+package boxapplication;
 
 public enum Color {
-	YELLOW,BROWN
-
+	YELLOW, BROWN
 }
