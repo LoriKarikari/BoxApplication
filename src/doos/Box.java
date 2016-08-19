@@ -1,30 +1,20 @@
-package doos;
+package boxapplication;
 
-public class Box<T extends Package> implements Comparable<Box<? extends Package>>{
+import java.util.ArrayList;
 
-	@Override
-	public String toString() {
-		return "Doos [Height=" + height + ", Width=" + width + ", Color=" + color + ", Weight=" + weight
-				+ ", Danger=" + danger + "]";
-	}
-
-	private double height;
-	private double width;
-	private Color color;
-	private double weight;
+public class Box<T extends Package> implements Comparable<Box<T>> {
+	private double height, width, weight;
 	private boolean danger;
-	
-	public Box(double height, double width, Color color, double weight, boolean danger) {
-		this.setHeight(height);
-		this.setWidth(width);
-		this.setDanger(danger);
-		this.setColor(color);
-		this.setWeight(weight);
-	}
-	
-	public Box()
-	{
-		
+	private Color color;
+
+	private ArrayList<T> boxes = new ArrayList<>();
+
+	public Box(double height, double width, double weight, boolean danger, Color color) {
+		this.height = height;
+		this.width = width;
+		this.weight = weight;
+		this.danger = danger;
+		this.color = color;
 	}
 
 	public double getHeight() {
@@ -43,14 +33,6 @@ public class Box<T extends Package> implements Comparable<Box<? extends Package>
 		this.width = width;
 	}
 
-	public Color getColor() {
-		return color;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
-	}
-
 	public double getWeight() {
 		return weight;
 	}
@@ -59,7 +41,7 @@ public class Box<T extends Package> implements Comparable<Box<? extends Package>
 		this.weight = weight;
 	}
 
-	public boolean isDanger() {
+	public boolean getDanger() {
 		return danger;
 	}
 
@@ -67,16 +49,35 @@ public class Box<T extends Package> implements Comparable<Box<? extends Package>
 		this.danger = danger;
 	}
 
-/*	public int compareTo(Box<Package> o) {
-		int comparage = (int) (this.getWeight()-o.getWeight());
-		return comparage;
-	}*/
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public boolean addBox(T box) {
+		boxes.add(box);
+		return true;
+	}
 
 	@Override
-	public int compareTo(Box<? extends Package> o) {
-		int compare = (int) o.getWeight();
-		return (int) (this.getWeight()-compare);
+	public int compareTo(Box<T> box) {
+		if (this.weight > box.getWeight()) {
+			return -1;
+		} else {
+		if (this.weight < box.getWeight()) {
+			return 1;
+		} else {
+			return 0;
+			}
+		}
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Box [height=" + height + ", width=" + width + ", weight=" + weight + ", danger=" + danger + ", color="
+				+ color + "]";
+	}
 }
