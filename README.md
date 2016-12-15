@@ -1,82 +1,72 @@
-# BoxApplication
-Oefening op:
-Generics
-Lambda Expressions
-File.IO
-FileAttributes
-Collections
-(multi) Threading
+# Box Application
+Exercise on:
+- Generics
+- Lambda expressions
+- File.IO
+- File attributes
+- Collections
+- (multi)threading
+:
+## Exercise
 
-## Opgave
+### Intro
 
-### Inleiding
+Attached you will find the file Boxes.txt.This file contains 1100 lines with the following Box properties:
+- Type
+- Width
+- Height
+- Color
+- Weight
+- Danger
 
-Bijgevoegd vind je het bestand Boxes.txt dit bestand bevat 1100 regels met Box properties volgens het volgende patroon:
+### Classes
 
-DoosSoort;breedte;hoogte;Kleur;gewicht;gevaargoed
+Create a generic class Box with which you can specify the type of box.
 
-De DoosSoort geeft het type doos weer.
-
-### Klassen
-
-Maak een generische klasse Doos, waarmee je het type kan specifiëren, vervolgens geef je voor iedere property (er zijn 5 properties - breedte, hoogte, kleur, gewicht, gevaargoed).
-
-De types dozen zijn de volgende:
-Wood (subklasse van Package)
-
-Metal (subklasse van Package)
-
-Paper (subklasse van Package)
-
-Plastic (subklasse van Package)
+The types of boxes are:
+- Wood 
+- Metal 
+- Paper 
+- Plastic 
+These are all subclasses of the class Package.
 
 ### ENUM
+Create an ENUM to specify the color of the box. Available colors are YELLOW and BROWN.
 
-Voor de parameter van de kleur van de door maak je een Enum met als opties YELLOW en BROWN.
+### Goal
 
-### Doelstelling
+Make sure that you can only create Box objects with one of the specified types.
 
-Zorg ervoor dat je alleen Doos objecten kunt maken die een type hebben van een subklasse van Package.
+Read the Boxes.txt file (seperate thread) and create a Box object for every line.
+Add these Box objects to the appropriate collection.
 
-Vervolgens lees je het het bestand Boxes.txt in en maak je voor iedere regel een Box object (denk eraan de eerste parameter van de txt file bevat het type doos (dit is dus geen property).
-Deze Box objecten steek je in een gepaste collectie en je zorgt ervoor dat het inlezen op een aparte thread gebeurd.
+Sort the boxes by color and make sure that every color has its own collection. 
+Sort these collections by weight from light to heavy.
+Then you write all these boxes to BoxYellow.txt and BoxBrown.txt.
 
-Je sorteert/splitst de dozen per kleur en zorgt ervoor dat iedere kleur zijn eigen collectie met dozen heeft.
+Write the 50 heaviest boxes to the file Heavy.txt and make sure this happens on a seperate thread.
+Do the same for the 50 lightest boxes and Light.txt
 
-Je sorteert deze collecties op basis van het gewicht van de doos van licht naar zwaar.
+Print all boxes with a height and width of 10.0 (Stream)
+Print all dangerous boxes.
 
-Vervolgens schrijf je deze weg naar de bestanden BoxYellow.txt en BoxBrown.txt .
+### File Attributes 
 
-Schrijf de 50 zwaarste dozen weg naar het bestand Heavy.txt en zorg ervoor dat dit op een aparte thread gebeurd. (gebruik de juiste collectie, je moet tenslotte alle dozen hebben) en doe hetzelfde voor de 50 lichtste dozen.
+Get the path of Heavy.txt and look for the following file properties:
+- isHidden
+- size
+- creation date
+- readOnly
 
-Print vervolgens alle dozen af die een hoogte en breedte hebben van 10.0 (Stream)
-
-Print alle dozen af die gevaarlijk zijn.
-
-### FileAttributes - Opgave
-
-Vervolgens vraag je het pad op van het bestand Heavy.txt en vraag je de volgende properties op van het bestand:
-
-*isHidden
-
-*grootte
-
-*aanmaakdatum
-
-*ReadOnly
-
-Schrijf dit weg naar het bestand FileProperties.txt
+Write these properties to FileProperties.txt.
 
 ### JAR
 
-Als laatste zorg je ervoor dat je de applicatie kunt uitvoeren via een .JAR bestand.
+Ensure that you can run the application through a .jar file.
 
-### NOTA
-
-Nota: Indien je Threads tegelijk kan laten lopen doe je dit, je hoeft niet te wachten tot iedere thread klaar is (denk zelf eens na welke thread moet wachten en welke niet.)
-
-
+### NOTE
+Try to run the threads simultaneously whenever it's possible. Decide which threads have to wait and which don't.
 
 ## Contributors
 
-B.D - PXL Student
+B.D - Student of PXL University College (Belgium)
