@@ -6,7 +6,7 @@ Exercise on:
 - File attributes
 - Collections
 - (multi)threading
-:
+
 ## Exercise
 
 ### Intro
@@ -28,6 +28,7 @@ The types of boxes are:
 - Metal 
 - Paper 
 - Plastic 
+
 These are all subclasses of the class Package.
 
 ### ENUM
